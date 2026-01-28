@@ -2,8 +2,11 @@ import { Users, TrendingUp, AlertTriangle, Clock } from "lucide-react";
 import StatCard from "./StatCard";
 import TodayTardyCard from "./TodayTardyCard";
 import TopTardyCard from "./TopTardyCard";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const Dashboard = () => {
+  const { t, language } = useLanguage();
+  
   // Mock data
   const stats = {
     totalStudents: 0,
@@ -16,7 +19,7 @@ const Dashboard = () => {
   const todayTardyStudents: never[] = [];
   const topTardyStudents: never[] = [];
 
-  // Get current date in Arabic
+  // Get current date in proper locale
   const today = new Date();
   const dateOptions: Intl.DateTimeFormatOptions = {
     weekday: "long",
@@ -24,18 +27,25 @@ const Dashboard = () => {
     month: "long",
     day: "numeric",
   };
-  const arabicDate = today.toLocaleDateString("ar-SA", dateOptions);
+  
+  const localeMap = {
+    ar: "ar-SA",
+    fr: "fr-FR",
+    en: "en-US",
+  };
+  
+  const formattedDate = today.toLocaleDateString(localeMap[language], dateOptions);
 
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between flex-wrap gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-foreground">لوحة التحكم</h1>
-          <p className="text-sm text-muted-foreground mt-1">{arabicDate}</p>
+          <h1 className="text-2xl font-bold text-foreground">{t("dashboard")}</h1>
+          <p className="text-sm text-muted-foreground mt-1">{formattedDate}</p>
         </div>
         <div className="bg-card rounded-xl px-4 py-3 shadow-soft">
-          <p className="text-xs text-muted-foreground">وقت بداية الدوام</p>
+          <p className="text-xs text-muted-foreground">{t("workStartTime")}</p>
           <p className="text-xl font-bold text-primary">07:00</p>
         </div>
       </div>
@@ -44,30 +54,30 @@ const Dashboard = () => {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         <StatCard
           icon={Users}
-          title="إجمالي الطلاب"
+          title={t("totalStudents")}
           value={stats.totalStudents}
-          subtitle="طالب مسجل"
+          subtitle={t("registeredStudent")}
           variant="default"
         />
         <StatCard
           icon={TrendingUp}
-          title="الحضور اليوم"
+          title={t("attendanceToday")}
           value={stats.attendanceToday}
-          subtitle={`${stats.onTime} في الوقت المحدد`}
+          subtitle={`${stats.onTime} ${t("onTime")}`}
           variant="success"
         />
         <StatCard
           icon={AlertTriangle}
-          title="المتأخرون اليوم"
+          title={t("tardyToday")}
           value={stats.tardyToday}
-          subtitle="طالب متأخر"
+          subtitle={t("tardyStudent")}
           variant="danger"
         />
         <StatCard
           icon={Clock}
-          title="متوسط التأخير"
-          value={`${stats.avgDelay} د`}
-          subtitle="دقيقة"
+          title={t("avgDelay")}
+          value={`${stats.avgDelay} ${language === "ar" ? "د" : "m"}`}
+          subtitle={t("minute")}
           variant="default"
         />
       </div>

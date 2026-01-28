@@ -1,4 +1,5 @@
 import { TrendingUp } from "lucide-react";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 interface TardyRecord {
   id: string;
@@ -12,6 +13,7 @@ interface TopTardyCardProps {
 }
 
 const TopTardyCard = ({ students }: TopTardyCardProps) => {
+  const { t } = useLanguage();
   const hasStudents = students.length > 0;
 
   return (
@@ -20,7 +22,7 @@ const TopTardyCard = ({ students }: TopTardyCardProps) => {
         <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center">
           <TrendingUp className="w-4 h-4 text-primary" />
         </div>
-        <h3 className="font-bold text-foreground">أكثر الطلاب تأخراً</h3>
+        <h3 className="font-bold text-foreground">{t("topTardy")}</h3>
       </div>
 
       {hasStudents ? (
@@ -39,9 +41,9 @@ const TopTardyCard = ({ students }: TopTardyCardProps) => {
                   <p className="text-xs text-muted-foreground">{student.class}</p>
                 </div>
               </div>
-              <div className="text-left">
+              <div className="text-end">
                 <p className="text-sm font-bold text-foreground">
-                  {student.totalTardies} مرات
+                  {student.totalTardies} {t("times")}
                 </p>
               </div>
             </div>
@@ -51,9 +53,9 @@ const TopTardyCard = ({ students }: TopTardyCardProps) => {
         <div className="text-center py-8">
           <TrendingUp className="w-12 h-12 mx-auto text-muted-foreground/30 mb-3" />
           <p className="text-muted-foreground font-medium">
-            لا توجد سجلات تأخير
+            {t("noTardyRecords")}
           </p>
-          <p className="text-sm text-muted-foreground mt-1">ابدأ بتسجيل الحضور</p>
+          <p className="text-sm text-muted-foreground mt-1">{t("startRecording")}</p>
         </div>
       )}
     </div>
