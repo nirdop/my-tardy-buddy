@@ -1,4 +1,5 @@
 import { Clock, AlertTriangle } from "lucide-react";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 interface TardyStudent {
   id: string;
@@ -12,6 +13,7 @@ interface TodayTardyCardProps {
 }
 
 const TodayTardyCard = ({ students }: TodayTardyCardProps) => {
+  const { t } = useLanguage();
   const hasStudents = students.length > 0;
 
   return (
@@ -20,7 +22,7 @@ const TodayTardyCard = ({ students }: TodayTardyCardProps) => {
         <div className="w-8 h-8 rounded-lg bg-danger/10 flex items-center justify-center">
           <AlertTriangle className="w-4 h-4 text-danger" />
         </div>
-        <h3 className="font-bold text-foreground">المتأخرون اليوم</h3>
+        <h3 className="font-bold text-foreground">{t("todayTardy")}</h3>
       </div>
 
       {hasStudents ? (
@@ -34,9 +36,9 @@ const TodayTardyCard = ({ students }: TodayTardyCardProps) => {
                 <p className="font-medium text-foreground">{student.name}</p>
                 <p className="text-xs text-muted-foreground">{student.class}</p>
               </div>
-              <div className="text-left">
+              <div className="text-end">
                 <p className="text-sm font-bold text-danger">
-                  {student.minutesLate} دقيقة
+                  {student.minutesLate} {t("minute")}
                 </p>
               </div>
             </div>
@@ -46,9 +48,9 @@ const TodayTardyCard = ({ students }: TodayTardyCardProps) => {
         <div className="text-center py-8">
           <Clock className="w-12 h-12 mx-auto text-muted-foreground/30 mb-3" />
           <p className="text-muted-foreground font-medium">
-            لا يوجد طلاب متأخرون اليوم
+            {t("noTardyToday")}
           </p>
-          <p className="text-sm text-muted-foreground mt-1">أداء ممتاز! 🎉</p>
+          <p className="text-sm text-muted-foreground mt-1">{t("excellentPerformance")}</p>
         </div>
       )}
     </div>

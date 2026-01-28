@@ -9,24 +9,34 @@ import {
   CheckCircle
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useLanguage } from "@/contexts/LanguageContext";
+import LanguageSwitcher from "./LanguageSwitcher";
+import { TranslationKey } from "@/lib/translations";
 
 interface SidebarProps {
   activeItem: string;
   onItemClick: (item: string) => void;
 }
 
-const menuItems = [
-  { id: "dashboard", label: "لوحة التحكم", icon: LayoutDashboard },
-  { id: "students", label: "الطلاب", icon: Users },
-  { id: "attendance", label: "تسجيل الدخول", icon: Clock },
-  { id: "records", label: "سجل التأخر", icon: FileText },
-  { id: "statistics", label: "الإحصائيات", icon: BarChart3 },
-  { id: "settings", label: "الإعدادات", icon: Settings },
+const menuItems: { id: string; labelKey: TranslationKey; icon: typeof LayoutDashboard }[] = [
+  { id: "dashboard", labelKey: "dashboard", icon: LayoutDashboard },
+  { id: "students", labelKey: "students", icon: Users },
+  { id: "attendance", labelKey: "attendance", icon: Clock },
+  { id: "records", labelKey: "records", icon: FileText },
+  { id: "statistics", labelKey: "statistics", icon: BarChart3 },
+  { id: "settings", labelKey: "settings", icon: Settings },
 ];
 
 const Sidebar = ({ activeItem, onItemClick }: SidebarProps) => {
+  const { t, dir } = useLanguage();
+
   return (
-    <aside className="w-64 bg-sidebar border-l border-sidebar-border h-screen fixed right-0 top-0 flex flex-col">
+    <aside 
+      className={cn(
+        "w-64 bg-sidebar border-sidebar-border h-screen fixed top-0 flex flex-col",
+        dir === "rtl" ? "right-0 border-l" : "left-0 border-r"
+      )}
+    >
       {/* Logo */}
       <div className="p-6 border-b border-sidebar-border">
         <div className="flex items-center gap-3">
@@ -35,10 +45,10 @@ const Sidebar = ({ activeItem, onItemClick }: SidebarProps) => {
           </div>
           <div>
             <h1 className="font-bold text-foreground flex items-center gap-1">
-              نظام التأخر
+              {t("appName")}
               <Sparkles className="w-4 h-4 text-primary" />
             </h1>
-            <p className="text-xs text-muted-foreground">إدارة حضور الطلاب</p>
+            <p className="text-xs text-muted-foreground">{t("appDescription")}</p>
           </div>
         </div>
       </div>
@@ -61,17 +71,20 @@ const Sidebar = ({ activeItem, onItemClick }: SidebarProps) => {
               )}
             >
               <Icon className="w-5 h-5" />
-              <span>{item.label}</span>
+              <span>{t(item.labelKey)}</span>
             </button>
           );
         })}
       </nav>
 
+      {/* Language Switcher */}
+      <LanguageSwitcher />
+
       {/* Status indicator */}
       <div className="p-4 border-t border-sidebar-border">
         <div className="flex items-center gap-2 text-sm text-muted-foreground">
           <div className="w-2 h-2 rounded-full bg-primary animate-pulse" />
-          <span>متصل بالخادم</span>
+          <span>{t("connectedToServer")}</span>
         </div>
       </div>
     </aside>
