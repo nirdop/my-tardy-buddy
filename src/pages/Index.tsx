@@ -1,126 +1,42 @@
-import { CalendarCheck, Trophy, Clock, Target } from "lucide-react";
-import Header from "@/components/Header";
-import StreakCard from "@/components/StreakCard";
-import UpcomingEvent from "@/components/UpcomingEvent";
-import StatCard from "@/components/StatCard";
-import AddEventButton from "@/components/AddEventButton";
-import TardyMascot from "@/components/TardyMascot";
+import { useState } from "react";
+import Sidebar from "@/components/Sidebar";
+import Dashboard from "@/components/Dashboard";
 
 const Index = () => {
-  // Mock data - would come from backend/state
-  const streak = 12;
-  const upcomingEvents = [
-    {
-      id: 1,
-      title: "Team Standup",
-      time: "9:00 AM",
-      location: "Conference Room A",
-      minutesUntilLeave: 8,
-    },
-    {
-      id: 2,
-      title: "Dentist Appointment",
-      time: "2:30 PM",
-      location: "Downtown Dental",
-      minutesUntilLeave: 45,
-    },
-    {
-      id: 3,
-      title: "Gym Class",
-      time: "6:00 PM",
-      location: "FitLife Center",
-      minutesUntilLeave: 180,
-    },
-  ];
+  const [activeItem, setActiveItem] = useState("dashboard");
 
   return (
     <div className="min-h-screen bg-background">
-      <div className="max-w-lg mx-auto px-4 pb-8">
-        <Header />
-
-        {/* Hero greeting */}
-        <section className="mt-6 text-center">
-          <div className="flex justify-center mb-4">
-            <TardyMascot size="lg" mood={streak >= 7 ? "celebrating" : "encouraging"} />
+      <Sidebar activeItem={activeItem} onItemClick={setActiveItem} />
+      
+      <main className="mr-64 p-6">
+        {activeItem === "dashboard" && <Dashboard />}
+        {activeItem === "students" && (
+          <div className="text-center py-20">
+            <h2 className="text-xl font-bold text-foreground">قريباً - إدارة الطلاب</h2>
           </div>
-          <h2 className="text-2xl font-extrabold text-foreground">
-            Good morning, Alex! 👋
-          </h2>
-          <p className="text-muted-foreground mt-1">
-            You've got {upcomingEvents.length} events today. Let's stay on time!
-          </p>
-        </section>
-
-        {/* Streak card */}
-        <section className="mt-6">
-          <StreakCard streak={streak} />
-        </section>
-
-        {/* Upcoming events */}
-        <section className="mt-8">
-          <div className="flex items-center justify-between mb-4">
-            <h3 className="text-lg font-bold text-foreground">Today's Schedule</h3>
-            <span className="text-sm text-muted-foreground">
-              {upcomingEvents.length} events
-            </span>
+        )}
+        {activeItem === "attendance" && (
+          <div className="text-center py-20">
+            <h2 className="text-xl font-bold text-foreground">قريباً - تسجيل الدخول</h2>
           </div>
-          <div className="space-y-3">
-            {upcomingEvents.map((event) => (
-              <UpcomingEvent
-                key={event.id}
-                title={event.title}
-                time={event.time}
-                location={event.location}
-                minutesUntilLeave={event.minutesUntilLeave}
-              />
-            ))}
-            <AddEventButton />
+        )}
+        {activeItem === "records" && (
+          <div className="text-center py-20">
+            <h2 className="text-xl font-bold text-foreground">قريباً - سجل التأخر</h2>
           </div>
-        </section>
-
-        {/* Stats grid */}
-        <section className="mt-8">
-          <h3 className="text-lg font-bold text-foreground mb-4">Your Stats</h3>
-          <div className="grid grid-cols-2 gap-3">
-            <StatCard
-              icon={CalendarCheck}
-              label="On-time rate"
-              value="94%"
-              subtext="This month"
-              variant="success"
-            />
-            <StatCard
-              icon={Trophy}
-              label="Best streak"
-              value="21 days"
-              subtext="Personal record"
-            />
-            <StatCard
-              icon={Clock}
-              label="Avg. early"
-              value="4 min"
-              subtext="Last 7 days"
-              variant="success"
-            />
-            <StatCard
-              icon={Target}
-              label="Events tracked"
-              value="156"
-              subtext="All time"
-            />
+        )}
+        {activeItem === "statistics" && (
+          <div className="text-center py-20">
+            <h2 className="text-xl font-bold text-foreground">قريباً - الإحصائيات</h2>
           </div>
-        </section>
-
-        {/* Motivation footer */}
-        <section className="mt-8 text-center py-6 px-4 rounded-2xl bg-gradient-hero">
-          <p className="text-primary-foreground font-bold text-lg">
-            🏃 "Early is on time, on time is late!"
-          </p>
-          <p className="text-primary-foreground/80 text-sm mt-2">
-            Keep building that streak!
-          </p>
-        </section>
-      </div>
+        )}
+        {activeItem === "settings" && (
+          <div className="text-center py-20">
+            <h2 className="text-xl font-bold text-foreground">قريباً - الإعدادات</h2>
+          </div>
+        )}
+      </main>
     </div>
   );
 };

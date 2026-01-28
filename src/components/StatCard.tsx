@@ -3,60 +3,69 @@ import { LucideIcon } from "lucide-react";
 
 interface StatCardProps {
   icon: LucideIcon;
-  label: string;
+  title: string;
   value: string | number;
-  subtext?: string;
-  variant?: "default" | "success" | "warning";
+  subtitle: string;
+  variant?: "default" | "success" | "danger" | "warning";
   className?: string;
 }
 
 const StatCard = ({
   icon: Icon,
-  label,
+  title,
   value,
-  subtext,
+  subtitle,
   variant = "default",
   className,
 }: StatCardProps) => {
   const variantStyles = {
-    default: "bg-card",
-    success: "bg-success/5",
-    warning: "bg-warning/5",
+    default: {
+      bg: "bg-card",
+      iconBg: "bg-primary/10",
+      iconColor: "text-primary",
+    },
+    success: {
+      bg: "bg-success/5",
+      iconBg: "bg-success/15",
+      iconColor: "text-success",
+    },
+    danger: {
+      bg: "bg-danger/5",
+      iconBg: "bg-danger/15",
+      iconColor: "text-danger",
+    },
+    warning: {
+      bg: "bg-warning/5",
+      iconBg: "bg-warning/15",
+      iconColor: "text-warning",
+    },
   };
 
-  const iconBgStyles = {
-    default: "bg-primary/10",
-    success: "bg-success/15",
-    warning: "bg-warning/15",
-  };
-
-  const iconStyles = {
-    default: "text-primary",
-    success: "text-success",
-    warning: "text-warning",
-  };
+  const styles = variantStyles[variant];
 
   return (
     <div
       className={cn(
-        "rounded-2xl p-5 shadow-soft transition-all duration-300 hover:shadow-card",
-        variantStyles[variant],
+        "rounded-xl p-5 shadow-soft transition-all duration-200 hover:shadow-card",
+        styles.bg,
         className
       )}
     >
-      <div
-        className={cn(
-          "w-10 h-10 rounded-xl flex items-center justify-center mb-3",
-          iconBgStyles[variant]
-        )}
-      >
-        <Icon className={cn("w-5 h-5", iconStyles[variant])} />
+      <div className="flex items-start justify-between">
+        <div>
+          <p className="text-sm font-medium text-muted-foreground">{title}</p>
+          <p className="text-3xl font-bold text-foreground mt-2">{value}</p>
+          <p className="text-xs text-muted-foreground mt-1">{subtitle}</p>
+        </div>
+        <div
+          className={cn(
+            "w-12 h-12 rounded-xl flex items-center justify-center",
+            styles.iconBg
+          )}
+        >
+          <Icon className={cn("w-6 h-6", styles.iconColor)} />
+        </div>
       </div>
-      <p className="text-sm font-medium text-muted-foreground">{label}</p>
-      <p className="text-2xl font-extrabold text-foreground mt-1">{value}</p>
-      {subtext && (
-        <p className="text-xs text-muted-foreground mt-1">{subtext}</p>
-      )}
     </div>
   );
 };
