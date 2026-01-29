@@ -1,12 +1,17 @@
 import { useState } from "react";
 import Sidebar from "@/components/Sidebar";
 import Dashboard from "@/components/Dashboard";
+import StudentsPage from "@/components/pages/StudentsPage";
+import AttendancePage from "@/components/pages/AttendancePage";
+import RecordsPage from "@/components/pages/RecordsPage";
+import StatisticsPage from "@/components/pages/StatisticsPage";
+import SettingsPage from "@/components/pages/SettingsPage";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { cn } from "@/lib/utils";
 
 const Index = () => {
   const [activeItem, setActiveItem] = useState("dashboard");
-  const { t, dir } = useLanguage();
+  const { dir } = useLanguage();
 
   return (
     <div className="min-h-screen bg-background">
@@ -14,41 +19,11 @@ const Index = () => {
       
       <main className={cn("p-6", dir === "rtl" ? "mr-64" : "ml-64")}>
         {activeItem === "dashboard" && <Dashboard />}
-        {activeItem === "students" && (
-          <div className="text-center py-20">
-            <h2 className="text-xl font-bold text-foreground">
-              {t("comingSoon")} - {t("studentManagement")}
-            </h2>
-          </div>
-        )}
-        {activeItem === "attendance" && (
-          <div className="text-center py-20">
-            <h2 className="text-xl font-bold text-foreground">
-              {t("comingSoon")} - {t("attendanceRegistration")}
-            </h2>
-          </div>
-        )}
-        {activeItem === "records" && (
-          <div className="text-center py-20">
-            <h2 className="text-xl font-bold text-foreground">
-              {t("comingSoon")} - {t("tardyRecords")}
-            </h2>
-          </div>
-        )}
-        {activeItem === "statistics" && (
-          <div className="text-center py-20">
-            <h2 className="text-xl font-bold text-foreground">
-              {t("comingSoon")} - {t("statisticsPage")}
-            </h2>
-          </div>
-        )}
-        {activeItem === "settings" && (
-          <div className="text-center py-20">
-            <h2 className="text-xl font-bold text-foreground">
-              {t("comingSoon")} - {t("settingsPage")}
-            </h2>
-          </div>
-        )}
+        {activeItem === "students" && <StudentsPage />}
+        {activeItem === "attendance" && <AttendancePage />}
+        {activeItem === "records" && <RecordsPage />}
+        {activeItem === "statistics" && <StatisticsPage />}
+        {activeItem === "settings" && <SettingsPage />}
       </main>
     </div>
   );
