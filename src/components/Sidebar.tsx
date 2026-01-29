@@ -10,7 +10,6 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useLanguage } from "@/contexts/LanguageContext";
-import LanguageSwitcher from "./LanguageSwitcher";
 import { TranslationKey } from "@/lib/translations";
 
 interface SidebarProps {
@@ -76,9 +75,6 @@ const Sidebar = ({ activeItem, onItemClick }: SidebarProps) => {
           );
         })}
       </nav>
-
-      {/* Language Switcher */}
-      <LanguageSwitcher />
 
       {/* Status indicator */}
       <div className="p-4 border-t border-sidebar-border">
