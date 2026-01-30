@@ -6,7 +6,8 @@ import {
   BarChart3, 
   Settings,
   Sparkles,
-  CheckCircle
+  CheckCircle,
+  FolderOpen
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useLanguage } from "@/contexts/LanguageContext";
@@ -19,6 +20,7 @@ interface SidebarProps {
 
 const menuItems: { id: string; labelKey: TranslationKey; icon: typeof LayoutDashboard }[] = [
   { id: "dashboard", labelKey: "dashboard", icon: LayoutDashboard },
+  { id: "classes", labelKey: "classes", icon: FolderOpen },
   { id: "students", labelKey: "students", icon: Users },
   { id: "attendance", labelKey: "attendance", icon: Clock },
   { id: "records", labelKey: "records", icon: FileText },
