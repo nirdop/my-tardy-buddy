@@ -7,6 +7,7 @@ export const translations = {
     
     // Navigation
     dashboard: "لوحة التحكم",
+    classes: "الأقسام",
     students: "الطلاب",
     attendance: "تسجيل الدخول",
     records: "سجل التأخر",
@@ -57,6 +58,7 @@ export const translations = {
     
     // Navigation
     dashboard: "Tableau de bord",
+    classes: "Classes",
     students: "Élèves",
     attendance: "Enregistrement",
     records: "Registre des retards",
@@ -107,6 +109,7 @@ export const translations = {
     
     // Navigation
     dashboard: "Dashboard",
+    classes: "Classes",
     students: "Students",
     attendance: "Attendance",
     records: "Tardy Records",

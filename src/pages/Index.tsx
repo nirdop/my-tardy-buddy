@@ -1,6 +1,7 @@
 import { useState } from "react";
 import Sidebar from "@/components/Sidebar";
 import Dashboard from "@/components/Dashboard";
+import ClassesPage from "@/components/pages/ClassesPage";
 import StudentsPage from "@/components/pages/StudentsPage";
 import AttendancePage from "@/components/pages/AttendancePage";
 import RecordsPage from "@/components/pages/RecordsPage";
@@ -19,6 +20,7 @@ const Index = () => {
       
       <main className={cn("p-6", dir === "rtl" ? "mr-64" : "ml-64")}>
         {activeItem === "dashboard" && <Dashboard />}
+        {activeItem === "classes" && <ClassesPage />}
         {activeItem === "students" && <StudentsPage />}
         {activeItem === "attendance" && <AttendancePage />}
         {activeItem === "records" && <RecordsPage />}
