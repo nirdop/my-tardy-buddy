@@ -3,6 +3,7 @@ import { Users, Plus, Search, Edit, Trash2, UserPlus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { useLocalStorage } from "@/hooks/useLocalStorage";
 import {
   Table,
   TableBody,
@@ -20,7 +21,7 @@ import {
 } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
 
-interface Student {
+export interface Student {
   id: string;
   name: string;
   class: string;
@@ -30,7 +31,7 @@ interface Student {
 
 const StudentsPage = () => {
   const { t, language } = useLanguage();
-  const [students, setStudents] = useState<Student[]>([]);
+  const [students, setStudents] = useLocalStorage<Student[]>("students", []);
   const [searchQuery, setSearchQuery] = useState("");
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
   const [editingStudent, setEditingStudent] = useState<Student | null>(null);
