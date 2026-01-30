@@ -3,14 +3,17 @@ import { Clock, CheckCircle, AlertTriangle, User, Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { useLocalStorage } from "@/hooks/useLocalStorage";
 import { cn } from "@/lib/utils";
+import { Student } from "./StudentsPage";
 
-interface AttendanceRecord {
+export interface AttendanceRecord {
   id: string;
   studentName: string;
   studentId: string;
   class: string;
   time: string;
+  date: string;
   status: "onTime" | "late";
   minutesLate?: number;
 }
@@ -19,8 +22,13 @@ const AttendancePage = () => {
   const { language } = useLanguage();
   const [searchQuery, setSearchQuery] = useState("");
   const [studentId, setStudentId] = useState("");
-  const [records, setRecords] = useState<AttendanceRecord[]>([]);
+  const [students] = useLocalStorage<Student[]>("students", []);
+  const [allRecords, setAllRecords] = useLocalStorage<AttendanceRecord[]>("attendanceRecords", []);
   const workStartTime = "07:00";
+  
+  // Filter records for today only
+  const today = new Date().toISOString().split("T")[0];
+  const records = allRecords.filter((r) => r.date === today);
 
   const labels = {
     ar: {
@@ -94,17 +102,21 @@ const AttendancePage = () => {
 
     const isLate = diffMinutes > 0;
 
+    // Find student info if exists
+    const existingStudent = students.find((s) => s.studentId === studentId);
+
     const newRecord: AttendanceRecord = {
       id: Date.now().toString(),
-      studentName: `طالب ${studentId}`,
+      studentName: existingStudent?.name || `طالب ${studentId}`,
       studentId: studentId,
-      class: "الفصل 1",
+      class: existingStudent?.class || "الفصل 1",
       time: currentTime,
+      date: today,
       status: isLate ? "late" : "onTime",
       minutesLate: isLate ? diffMinutes : undefined,
     };
 
-    setRecords([newRecord, ...records]);
+    setAllRecords([newRecord, ...allRecords]);
     setStudentId("");
   };
 
